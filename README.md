@@ -42,14 +42,13 @@ Decorator for dispatching a function's implementation according to registered co
 "DEFAULT"
 ```
 
-**Dispatching Class Methods**
+**Dispatching Methods**
 ```
   class AnimalFactory:
     """
     Cool Animal Factory
     """
 
-    @classmethod
     @conditional_dispatch
     def cool_cat_creator(instructions):
       return "BASIC COOL CAT"
