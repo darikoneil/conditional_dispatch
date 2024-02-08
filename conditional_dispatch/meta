@@ -1,0 +1,6 @@
+from importlib_metadata import metadata as _metadata
+
+name = _metadata("conditional_dispatch")["name"]
+version = _metadata("conditional_dispatch")["version"]
+author = _metadata("conditional_dispatch")["author"]
+maintainer = _metadata("conditional_dispatch")["maintainer"]
