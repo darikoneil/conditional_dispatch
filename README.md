@@ -55,7 +55,7 @@ Decorator for dispatching a function's implementation according to registered co
       return "BASIC COOL CAT"
 
     @staticmethod
-    @conditional_dispatch(lambda instructions: instructions == "calico")
+    @cool_cat_creator.register(lambda instructions: instructions == "calico")
     def calico_creator(instructions):
       return "COOL CALICO CAT"
 ```
