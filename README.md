@@ -1,7 +1,7 @@
 # conditional_dispatch
-Decorator for dispatching a function's implementation according to registered conditional statements. While using a similar syntax to python's standard library's [singledispatch](https://docs.python.org/3/library/functools.html#functools.singledispatch), it supports arbitrary conditional statements on single or multiple input arguments. 
+Simple little ecorator for dispatching a function's implementation according to registered conditional statements. While using a similar syntax to python's standard library's [singledispatch](https://docs.python.org/3/library/functools.html#functools.singledispatch), it supports arbitrary conditional statements on single or multiple input arguments. 
 
-**Simple Example**
+**Dispatch using value example**
 ```
   @conditional_dispatch
   def my_function(argument):
@@ -25,13 +25,35 @@ Decorator for dispatching a function's implementation according to registered co
 "DEFAULT"
 ```
 
+**Dispatch using number of arguments example**
+```
+@conditional_dispatch
+def my_function(*args):
+  return "A"
+
+@my_function.register(lambda args: len(args) == 1
+def _(*args):
+  return "B"
+
+@my_function.register(lambda args: len(args) == 2
+def _(*args):
+  return "C"
+
+  my_function()
+"A"
+  my_function(1)
+"B"
+  my_function(1,2)
+"C"
+```
+
 **Multidispatching**
 ```
   @conditional_dispatch
   def my_function(arg0, arg1):
     print("DEFAULT")
 
-  @my_function.register(lambda arg0, arg1: isinstance(arg0, tuple) && isinstance(arg1, list)
+  @my_function.register(lambda arg0, arg1: isinstance(arg0, tuple) and isinstance(arg1, list))
   def _(argument):
     print("TUPLE & LIST)
 
@@ -42,19 +64,4 @@ Decorator for dispatching a function's implementation according to registered co
 "DEFAULT"
 ```
 
-**Dispatching Methods**
-```
-  class AnimalFactory:
-    """
-    Cool Animal Factory
-    """
 
-    @conditional_dispatch
-    def cool_cat_creator(instructions):
-      return "BASIC COOL CAT"
-
-    @staticmethod
-    @cool_cat_creator.register(lambda instructions: instructions == "calico")
-    def calico_creator(instructions):
-      return "COOL CALICO CAT"
-```
