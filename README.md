@@ -87,7 +87,8 @@ class CallbackRequest:
         raise DispatchError(self)
 
     @inject.register(lambda self, callback, providers=None:
-                     isinstance(callback, CallbackFunction) and not isinstance(callback, BoundFunction))
+                     (isinstance(callback, CallbackFunction) or isinstance(callback, partial))
+                     and not isinstance(callback, BoundFunction))
     def _(self, callback: CallbackFunction, providers: Optional[Union[dict, WeakValueDictionary]] = None) -> None:
         """
         Injects the requested callback function directly into the requesting instance
