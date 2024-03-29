@@ -32,30 +32,32 @@ class CallbackRequest:
     This class requests the injection of the specified callback into the requesting instance.
 
     :param requesting_instance: The instance requesting the callback injection
+
     :param callback_key: The key of the callback to inject
+
     :raises CallbackError: Raised when the callback is called but was not injected
+
     :raises CallbackKeyWarning: Raised when the callback key is not present in the requesting instance, which could
         result in the requesting instance being unable to call the callback
-    :raises DispatchError: Raised when the callback argument is neither a callback function, not present in the
-        :class:`CallbackRegistry <probe.registries.CallbackRegistry>`, and not None Type or if dispatching
-         otherwise fails
 
-    .. seealso:: :class:`CallbackFunction <probe.extensions.CallbackFunction>`
+    :raises DispatchError: Raised when the callback argument is neither a callback function, not present in the
+        CallbackRegistry, and not None  or if dispatchingotherwise fails
     """
     def __init__(self, requesting_instance: Any, callback_key: str) -> None:
         """
         This class requests the injection of the specified callback into the requesting instance.
 
         :param requesting_instance: The instance requesting the callback injection
+
         :param callback_key: The key of the callback to inject
+
         :raises CallbackError: Raised when the callback is called but was not injected
+
         :raises CallbackKeyWarning: Raised when the callback key is not present in the requesting instance, which could
             result in the requesting instance being unable to call the callback
-        :raises DispatchError: Raised when the callback argument is neither a callback function, not present in the
-            :class:`CallbackRegistry <probe.registries.CallbackRegistry>`, and not None Type or if dispatching
-            otherwise fails
 
-        .. seealso:: :class:`CallbackFunction <probe.extensions.CallbackFunction>`
+        :raises DispatchError: Raised when the callback argument is neither a callback function, not present in the
+            CallbackRegistry, and not None Type or if dispatching otherwise fails
         """
         self.requesting_instance = requesting_instance
         self.callback_key = callback_key
@@ -70,19 +72,20 @@ class CallbackRequest:
         Injects the requested callback into the requesting instance. If the retrieved callback is a bound method,
         then its associated instance or class is attached to the callback's arguments by iterating through the
         providers. This method is dispatched based on the type of the callback. If the callback is
-        a :class:`CallbackRegistry <probe.registries.CallbackRegistry>`, then the callback is retrieved from the
-        registry. If the callback is a :class:`CallbackFunction <probe.extensions.CallbackFunction>`, then the callback
-        is directly injected. If the callback is None Type, then the callback is mocked.
+        a CallbackRegistry, then the callback is retrieved from the registry. If the callback is a CallbackFunction,
+        then the callback is directly injected. If the callback is None Type, then the callback is mocked.
 
         :param callback: The callback to inject or the callback registry containing the callback
+
         :param providers: A weak-valued dictionary of providers used to resolve bound methods. A standard dictionary
             can be used (e.g., testing) but during runtime the providers will be in a weak-valued dictionary after
-            being collected by :class:`ProviderTraverse <probe.injection.ProviderTraverse>`
+            being collected by ProviderTraverse
+
         :raises CallbackKeyWarning: Raised when the callback key is not present in the requesting instance, which could
-        result in the requesting instance being unable to call the callback
+          result in the requesting instance being unable to call the callback
+
         :raises DispatchError: Raised when the callback argument is neither a callback function, not present in the
-            :class:`CallbackRegistry <probe.registries.CallbackRegistry>`, and not None Type or if dispatching
-            otherwise fails
+            CallbackRegistry, and not None Type or if dispatching otherwise fails
         """
         raise DispatchError(self)
 
