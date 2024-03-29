@@ -25,7 +25,7 @@ Simple little decorator for dispatching a function's implementation according to
 "DEFAULT"
 ```
 
-** Actual Example Use-Case**
+**Actual Example Use-Case**
 ```
 class CallbackRequest:
     """
