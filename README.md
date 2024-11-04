@@ -5,8 +5,32 @@ I hate those. You can also use it to implement a multiple-argument type dispatch
 Feel free to copy/paste in your own projects! Uses syntax like python's standard library's [singledispatch](https://docs.python.org/3/library/functools.html#functools.singledispatch) and is able to be used with class and instance methods.
 
 
-## Example
+## Examples
+
 ```
+"""
+Example of variable argument dispatch
+"""
+
+@conditional_dispatch
+def my_function(*args: Any) -> None
+  ...
+
+@my_function.register(lambda *args: len(args) == 0)
+def _(*args) -> None:
+  print("One argument")
+
+@my_function.register(lambda *args: len(args) > 0)
+def _(*args) -> None:
+  print("Multiple arguments")
+```
+
+
+```
+"""
+Example of multiple type dispatch
+"""
+
 @conditional_dispatch
 def my_function(a: Any, b: Any) -> str:
   raise TypeError(f"Dispatching error: no support for {type(input)}")
@@ -29,3 +53,4 @@ def _(a: str, b: int) -> str:
 @my_function.register(lambda a, b: isinstance(a, str) and isinstance(b, str))
 def _(a: str, b: str) -> str:
   return "Both are strs"
+```
