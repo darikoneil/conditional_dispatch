@@ -1,26 +1,31 @@
 # conditional_dispatch
-Simple little decorator for dispatching a function's implementation according to registered conditional statements. Feel free to copy/paste. While using a similar syntax to python's standard library's [singledispatch](https://docs.python.org/3/library/functools.html#functools.singledispatch), it supports arbitrary conditional statements on single or multiple input arguments. 
+Simple little decorator to create generic functions with conditional dispatching. This is useful for breaking up a single function into
+multiple implementations based on different conditions, without having to write a bunch of if-elif-else statements.
+I hate those. You can also use it to implement a multiple-argument type dispatcher, which is pretty cool.
+Feel free to copy/paste in your own projects! Uses syntax like python's standard library's [singledispatch](https://docs.python.org/3/library/functools.html#functools.singledispatch) and is able to be used with class and instance methods.
 
-**Simple Example: dispatch using value example**
+
+## Example
 ```
-  @conditional_dispatch
-  def my_function(argument):
-    print("DEFAULT")
+@conditional_dispatch
+def my_function(a: Any, b: Any) -> str:
+  raise TypeError(f"Dispatching error: no support for {type(input)}")
 
-  @my_function.register(lambda argument: argument > 10)
-  def _(argument):
-    print("GREATER THAN TEN")
 
-  @my_function.register(lambda argument: argument < 10)
-  def _(argument):
-    print("LESS THAN TEN)
+@my_function.register(lambda a, b: isinstance(a, int) and isinstance(b, int))
+def _(a: int, b: int) -> str:
+  return "Both are ints"
 
-  my_function(1)
-"LESS THAN TEN"
 
-  my_function(11)
-"GREATER THAN TEN"
+@my_function.register(lambda a, b: isinstance(a, int) and a >= 0 and isinstance(b, str))
+def _(a: int, b: int) -> str:
+  return "a is an int and b is str"
 
-  my_function(10)
-"DEFAULT"
-```
+
+@my_function.register(lambda a, b: isinstance(a, str) and isinstance(b, int))
+def _(a: str, b: int) -> str:
+  return "a is a str, b is an int"
+
+@my_function.register(lambda a, b: isinstance(a, str) and isinstance(b, str))
+def _(a: str, b: str) -> str:
+  return "Both are strs"
