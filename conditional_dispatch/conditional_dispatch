@@ -19,8 +19,9 @@ def _always_true(*args: Any, **kwargs: Any):
 def conditional_dispatch(func: Callable) -> Callable:
     """
     Conditional-dispatch generic function decorator that transforms a function into a generic function whose behavior is
-    defined by registered (arbitrary) conditional statements.
-
+    defined by registered (arbitrary) conditional statements. This is useful for breaking up a single function into
+    multiple implementations based on different conditions, without having to write a bunch of if-elif-else statements.
+    I hate those. You can also use it to implement a multiple-argument type dispatcher, which is pretty cool.
     """
     # implementation registry
     registry = {}
